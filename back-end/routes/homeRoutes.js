@@ -1,13 +1,10 @@
 const express = require('express');
 
 const router = express.Router();
+const userRoutes = require("./userRoutes");
+const docRoutes = require("./docRoutes");
 
-router.get('/', (req, res) => { 
-    res.send({
-        message: 'Welcome to the home page',
-        status: 200
-    })
-}
-);
+router.use("/user", userRoutes);
+// router.use("/doc", docRoutes);
 
 module.exports = router;
