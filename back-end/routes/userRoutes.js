@@ -8,5 +8,10 @@ const passport = require('passport') ;
 router.post('/signup' , userControllers.userSignupController) ;
 router.post('/signin'  ,userControllers.userSigninController);
 router.get('/profile' , passport.authenticate('jwt', { session: false }), userControllers.profileController) ;
+router.post(
+  "/update-profile",
+  passport.authenticate("jwt", { session: false }),
+  userControllers.updateProfileController
+);
 
 module.exports = router ;
