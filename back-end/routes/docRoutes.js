@@ -11,4 +11,11 @@ router.get(
   docController.profileController
 );
 
+router.get(
+  "/appoinments",
+  passport.authenticate("doc-jwt", { session: false }),
+  docController.getAppoinmentsController
+);
+
+
 module.exports = router;

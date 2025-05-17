@@ -23,4 +23,6 @@ router.post(
   appointmentControllers.bookApoinmentController
 );
 
+router.post("/signout", userControllers.signOutController);
+
 module.exports = router ;

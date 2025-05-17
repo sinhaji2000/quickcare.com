@@ -1,5 +1,7 @@
 const Doc = require("../model/doc");
 const jwt = require("jsonwebtoken");
+const appoinments = require("../model/appointment");
+
 exports.docSignupController = async (req, res) => {
   try {
     const { name, email, password, phone, age, address } = req.body;
@@ -95,3 +97,29 @@ exports.profileController = async (req, res) => {
   return res.json({ user: req.user });
 };
 
+exports.getAppoinmentsController = async (req, res) => {
+  try {
+    const docId = req.user._id;
+    const appoinmentsList = await appoinments.find({ docId: docId }).populate({
+      path: "userId",
+      select: "-password -__v -_id",
+    });
+    if (!appoinmentsList) {
+      return res.status(400).json({
+        message: "No appoinments found",
+        status: 400,
+      });
+    }
+    return res.status(200).json({
+      message: "Appoinments fetched successfully",
+      status: 200,
+      appoinmentsList,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Internal Error",
+      status: 500,
+    });
+  }
+};

@@ -1,4 +1,5 @@
 const User = require('../model/user') ;
+const BlacklistedToken = require("../model/blackListToken");
 const jwt = require("jsonwebtoken");
 
 exports.userSignupController = async (req, res) => {
@@ -124,6 +125,35 @@ exports.updateProfileController = async (req, res) => {
     console.log(err);
     res.status(500).json({
       message: "Internal Error",
+      status: 500,
+    });
+  }
+};
+
+exports.signOutController = async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(400).json({ message: "Authorization header missing" });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "secret");
+
+    // Add token to blacklist
+    await BlacklistedToken.create({
+      token,
+      expiresAt: new Date(decoded.exp * 1000),
+    });
+
+    return res.status(200).json({
+      message: "User signed out successfully",
+      status: 200,
+    });
+  } catch (err) {
+    console.error("Signout error:", err);
+    return res.status(500).json({
+      message: "Internal server error",
       status: 500,
     });
   }
