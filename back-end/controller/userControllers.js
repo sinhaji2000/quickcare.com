@@ -1,6 +1,7 @@
 const User = require('../model/user') ;
 const BlacklistedToken = require("../model/blackListToken");
 const jwt = require("jsonwebtoken");
+const Appoinment = require("../model/appointment");
 
 exports.userSignupController = async (req, res) => {
   try {
@@ -154,6 +155,27 @@ exports.signOutController = async (req, res) => {
     console.error("Signout error:", err);
     return res.status(500).json({
       message: "Internal server error",
+      status: 500,
+    });
+  }
+};
+
+exports.getAppoinmentsController = async (req, res) => {
+  try {
+    const appoinments = await Appoinment.find({
+      userId: req.user._id,
+    }).populate({
+      path: "docId",
+      select: "-password -__v -_id",
+    });
+    return res.status(200).json({
+      message: "All appointments fetched successfully",
+      data: appoinments,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Internal Error",
       status: 500,
     });
   }

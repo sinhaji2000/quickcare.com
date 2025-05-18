@@ -4,9 +4,27 @@ const appoinments = require("../model/appointment");
 
 exports.docSignupController = async (req, res) => {
   try {
-    const { name, email, password, phone, age, address } = req.body;
+    const {
+      name,
+      email,
+      password,
+      phone,
+      age,
+      speclization,
+      experience,
+      address,
+    } = req.body;
 
-    if (!name || !email || !password || !phone || !age || !address) {
+    if (
+      !name ||
+      !email ||
+      !password ||
+      !phone ||
+      !age ||
+      !speclization ||
+      !experience ||
+      !address
+    ) {
       return res.status(400).json({
         message: "All fields are required",
         status: 400,
@@ -26,6 +44,8 @@ exports.docSignupController = async (req, res) => {
       password,
       phone,
       age,
+      speclization,
+      experience,
       address: {
         house_No,
         locality,
@@ -123,3 +143,4 @@ exports.getAppoinmentsController = async (req, res) => {
     });
   }
 };
+

@@ -25,4 +25,10 @@ router.post(
 
 router.post("/signout", userControllers.signOutController);
 
+router.get(
+  "/get-appointments",
+  passport.authenticate("user-jwt", { session: false }),
+  userControllers.getAppoinmentsController
+);
+
 module.exports = router ;

@@ -17,6 +17,8 @@ passport.use(
     // console.log("JWT payload:", jwt_payload); // Add this line for debugging
     try {
       const token = ExtractJwt.fromAuthHeaderAsBearerToken()(req);
+      if (!token) return done(null, false);
+
       const blacklisted = await BlacklistedToken.findOne({ token });
 
       if (blacklisted) return done(null, false); // Token is blacklisted
@@ -29,6 +31,7 @@ passport.use(
     }
   })
 );
+
 
 passport.use(
   "doc-jwt",
