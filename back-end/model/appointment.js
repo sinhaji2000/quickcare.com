@@ -16,6 +16,11 @@ const appointmentSchema = new mongoose.Schema({
     required: true,
   },
   timeSlot: String,
+  reminderSent: {
+    type: Boolean,
+    default: false,
+  },
+
   // timeSlot: {
   //   type: String, // e.g., "10:00 AM - 10:30 AM"
   //   required: true,

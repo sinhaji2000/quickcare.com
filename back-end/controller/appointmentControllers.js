@@ -46,8 +46,8 @@ exports.bookApoinmentController = async (req, res) => {
     });
 
     if (count >= doc.dailyLimit) {
-      doc.availability = false;
-      await doc.save();
+      // doc.availability = false;
+      // await doc.save();
 
       return res
         .status(400)

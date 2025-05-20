@@ -5,9 +5,14 @@ const db = require("./config/mongoose");
 const passport = require("passport");
 require("dotenv").config();
 const app = express();
-const doc = require("./model/doc");
 
-
+const cron = require("node-cron");
+const remindUpcomingAppointments = require("./cron/remainderJob");
+// Every 30 minutes
+cron.schedule("*/60 * * * *", async () => {
+  console.log("Running reminder job...");
+  //   await remindUpcomingAppointments();
+});
 require("./config/passport"); // ← just require it
 app.use(passport.initialize());
 app.use(express.json());
