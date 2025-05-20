@@ -26,6 +26,3 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User' , userSchema) ;
 module.exports = User;
 
-// Zt447a6NV0GCp3KR
-
-// mongodb+srv://mukeshsinhaocsm:Zt447a6NV0GCp3KR@cluster0.qpzqza6.mongodb.net/

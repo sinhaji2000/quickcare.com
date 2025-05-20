@@ -5,6 +5,18 @@ const db = require("./config/mongoose");
 const passport = require("passport");
 require("dotenv").config();
 const app = express();
+const cors = require("cors");
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Frontend address
+    credentials: true, // if you're using cookies or HTTP auth
+  })
+);
+
+// app.get("/", (req, res) => {
+//   res.send("CORS is working!");
+// });
 
 const cron = require("node-cron");
 const remindUpcomingAppointments = require("./cron/remainderJob");

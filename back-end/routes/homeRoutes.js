@@ -7,7 +7,7 @@ const Doc = require("../model/doc");
 
 router.get("/", async (req, res) => {
   try {
-    const doc = Doc.find().select("-password , -_id");
+    const doc = await Doc.find().select("-password  -_id -__v");
     return res.status(200).json({
       message: "Welcome to the home page",
       status: 200,

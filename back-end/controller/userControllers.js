@@ -31,7 +31,7 @@ exports.userSignupController = async (req, res) => {
       age: age,
     });
 
-    console.log(user);
+    // console.log(user);
     if (user) {
       // Send email to user
       const message = `Hi ${user.name}, welcome to our service! Your account has been created successfully.`;
