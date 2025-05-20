@@ -12,6 +12,10 @@ exports.docSignupController = async (req, res) => {
       age,
       speclization,
       experience,
+      dailyLimit,
+      startHour,
+      endHour,
+      timePerUser,
       address,
     } = req.body;
 
@@ -23,6 +27,10 @@ exports.docSignupController = async (req, res) => {
       !age ||
       !speclization ||
       !experience ||
+      !dailyLimit ||
+      !startHour ||
+      !endHour ||
+      !timePerUser ||
       !address
     ) {
       return res.status(400).json({
@@ -46,6 +54,10 @@ exports.docSignupController = async (req, res) => {
       age,
       speclization,
       experience,
+      dailyLimit,
+      startHour,
+      endHour,
+      timePerUser,
       address: {
         house_No,
         locality,

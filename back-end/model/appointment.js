@@ -15,6 +15,7 @@ const appointmentSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  timeSlot: String,
   // timeSlot: {
   //   type: String, // e.g., "10:00 AM - 10:30 AM"
   //   required: true,

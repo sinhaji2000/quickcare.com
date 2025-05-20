@@ -6,6 +6,7 @@ exports.bookApoinmentController = async (req, res) => {
   try {
     const { docId, date } = req.body;
     const userId = req.user._id;
+    
 
     const doc = await Doc.findById(docId);
 
@@ -22,6 +23,16 @@ exports.bookApoinmentController = async (req, res) => {
 
     const endOfDay = new Date(bookingDate);
     endOfDay.setHours(23, 59, 59, 999);
+    const existingBooking = await Appointment.findOne({
+      docId,
+      userId,
+      date: { $gte: startOfDay, $lte: endOfDay },
+    });
+    if (existingBooking) {
+      return res.status(400).json({
+        message: "You already have an appointment with this doctor today.",
+      });
+    }
     const day = bookingDate.toLocaleDateString("en-US", { weekday: "long" });
     if (doc.blockedDays.includes(day)) {
       return res
@@ -43,10 +54,41 @@ exports.bookApoinmentController = async (req, res) => {
         .json({ message: "Appointment limit reached for today" });
     }
 
+    // Parse doctor's time range
+    const [startHour, startMin] = doc.startHour.split(":").map(Number);
+    const [endHour, endMin] = doc.endHour.split(":").map(Number);
+    const timePerUser = doc.timePerUser;
+
+    const docStart = new Date(date);
+    docStart.setHours(startHour, startMin, 0, 0);
+
+    const slotStart = new Date(docStart);
+    slotStart.setMinutes(slotStart.getMinutes() + count * timePerUser);
+
+    const slotEnd = new Date(slotStart);
+    slotEnd.setMinutes(slotEnd.getMinutes() + timePerUser);
+
+    // Check if the slot is within working hours
+    const docEnd = new Date(date);
+    docEnd.setHours(endHour, endMin, 0, 0);
+
+    if (slotEnd > docEnd) {
+      return res.status(400).json({ message: "No available time slots" });
+    }
+
+    const formattedSlot = `${slotStart.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    })} - ${slotEnd.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}`;
+
     const appointment = new Appointment({
       docId: docId,
       userId: userId,
       date: bookingDate,
+      timeSlot: formattedSlot,
     });
     await appointment.save();
 

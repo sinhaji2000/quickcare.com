@@ -5,6 +5,8 @@ const db = require("./config/mongoose");
 const passport = require("passport");
 require("dotenv").config();
 const app = express();
+const doc = require("./model/doc");
+
 
 require("./config/passport"); // ← just require it
 app.use(passport.initialize());

@@ -37,6 +37,18 @@ const docSchema = new mongoose.Schema({
     type: Number,
     default: 5,
   },
+  startHour: {
+    type: String,
+    required: true,
+  },
+  endHour: {
+    type: String,
+    required: true,
+  },
+  timePerUser: {
+    type: Number,
+    default: 15,
+  },
   // how many appointments allowed per day
   blockedDays: {
     type: [String],
