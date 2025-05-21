@@ -31,7 +31,7 @@ const UserLogin = () => {
       setMessage('Login successful! Redirecting...');
       
       // Redirect to /home after successful login
-      navigate('/home');
+      navigate('/');
     } catch (err) {
       if (err.response) {
         setMessage(err.response.data.message || 'Login failed');

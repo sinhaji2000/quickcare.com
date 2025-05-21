@@ -5,6 +5,7 @@ const Appoinment = require("../model/appointment");
 const sendEmail = require("../config/node_mailer");
 const useragent = require("useragent");
 const geoip = require("geoip-lite");
+const Doc = require("../model/doc");
 exports.userSignupController = async (req, res) => {
   try {
     const { name, email, password, phone, age } = req.body;
@@ -207,6 +208,31 @@ exports.getAppoinmentsController = async (req, res) => {
     return res.status(200).json({
       message: "All appointments fetched successfully",
       data: appoinments,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Internal Error",
+      status: 500,
+    });
+  }
+};
+
+exports.getDocDetailsCOntroller = async (req, res) => {
+  try {
+    const docId = req.params.id;
+    console.log(docId);
+    const doc = await Doc.findById(docId).select("-password -__v ");
+    console.log(doc);
+    if (!doc) {
+      return res.status(400).json({
+        message: "Doctor not found",
+        status: 400,
+      });
+    }
+    return res.status(200).json({
+      message: "Doctor details fetched successfully",
+      data: doc,
     });
   } catch (err) {
     console.log(err);

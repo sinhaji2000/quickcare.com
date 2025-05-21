@@ -11,6 +11,9 @@ import UserSignup from "./UserSignup";
 import NavBar from "./Navbar";
 import UserLogin from "./UserLogin";
 import UserProfile from "./UserProfile";
+import DocDetail from "./DocDetail"
+import Footer from "./Footer";
+import BookAppointment from "./BookAppointment";
 
 // Layout that includes Navbar + nested page via <Outlet />
 const AppLayout = () => {
@@ -18,6 +21,7 @@ const AppLayout = () => {
     <>
       <NavBar />
       <Outlet />
+      <Footer/>
     </>
   );
 };
@@ -29,7 +33,7 @@ const appRouter = createBrowserRouter([
     element: <AppLayout />, // Wrap all routes with Navbar
     children: [
       {
-        path: "home",
+        path: "/",
         element: <Home />
       },
       {
@@ -43,7 +47,16 @@ const appRouter = createBrowserRouter([
       {
         path:"user/profile",
         element: <UserProfile />
+      },
+      {
+        path : "doc/:id",
+        element : <DocDetail/>
+      },
+      {
+        path : 'book-appointment/:id',
+        element : <BookAppointment/>
       }
+
     ]
   }
 ]);

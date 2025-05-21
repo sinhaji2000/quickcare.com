@@ -31,4 +31,6 @@ router.get(
   userControllers.getAppoinmentsController
 );
 
+router.get("/get-doc-details/:id", userControllers.getDocDetailsCOntroller);
+
 module.exports = router ;
