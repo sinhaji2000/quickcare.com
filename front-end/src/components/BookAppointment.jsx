@@ -1,40 +1,14 @@
 import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useParams } from "react-router-dom";
+import useBookAppo from "../hooks/useBookAppo";
 
 const BookAppointment = () => {
-  const { id: docId } = useParams(); // doctor ID from route
-//   console.log(docId)
-  const navigate = useNavigate();
+  const { id: docId } = useParams();
   const [date, setDate] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const { handleBooking, loading, message } = useBookAppo();
 
-  const handleBooking = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage("");
-
-    try {
-      const token = localStorage.getItem("token"); // your JWT key
-      console.log(token)
-      const res = await axios.post(
-        "http://localhost:3001/user/book-appointment",
-        { docId, date },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setMessage(res.data.message);
-      setTimeout(() => navigate("/"), 2000); // redirect after 2s
-    } catch (err) {
-      setMessage(err.response?.data?.message || "Something went wrong.");
-    } finally {
-      setLoading(false);
-    }
+  const onSubmit = (e) => {
+    handleBooking(e, docId, date);
   };
 
   return (
@@ -43,7 +17,7 @@ const BookAppointment = () => {
         <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
           Book Appointment
         </h2>
-        <form onSubmit={handleBooking} className="space-y-6">
+        <form onSubmit={onSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Select Date
@@ -56,7 +30,7 @@ const BookAppointment = () => {
               required
             />
           </div>
-  
+
           <button
             type="submit"
             disabled={loading}
@@ -67,7 +41,7 @@ const BookAppointment = () => {
             {loading ? "Booking..." : "Book Now"}
           </button>
         </form>
-  
+
         {message && (
           <p className="mt-4 text-center text-sm font-medium text-red-500">
             {message}
@@ -76,7 +50,6 @@ const BookAppointment = () => {
       </div>
     </div>
   );
-  
 };
 
 export default BookAppointment;
