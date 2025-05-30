@@ -121,7 +121,12 @@ exports.userSigninController = async (req, res) => {
 };
 
 exports.profileController = async (req, res) => {
-  return res.json({ user: req.user });
+  // console.log(req.user._id);
+  const appoinments = await Appoinment.find({
+    userId: req.user._id,
+  }).populate("docId", "-password -__v ");
+  console.log(appoinments);
+  return res.json({ user: req.user, appointments: appoinments });
 };
 
 exports.updateProfileController = async (req, res) => {

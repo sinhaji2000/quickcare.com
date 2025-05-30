@@ -8,20 +8,23 @@ import {
 
 import Home from "./Home";
 import UserSignup from "./UserSignup";
-import NavBar from "./Navbar";
+import HeroNavbar from "./Navbar";
 import UserLogin from "./UserLogin";
 import UserProfile from "./UserProfile";
-import DocDetail from "./DocDetail"
+import DocDetail from "./DocDetail";
 import Footer from "./Footer";
 import BookAppointment from "./BookAppointment";
+import Header from "./Header";
 
 // Layout that includes Navbar + nested page via <Outlet />
 const AppLayout = () => {
   return (
     <>
-      <NavBar />
-      <Outlet />
-      <Footer/>
+      <HeroNavbar />
+      <main className="flex-grow">
+        <Outlet />
+      </main>
+      <Footer />
     </>
   );
 };
@@ -34,39 +37,43 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />
+        element: <Home />,
       },
+      // {
+      //   path: "/abc",
+      //   element: <Header />,
+      // },
       {
         path: "user/signup",
-        element: <UserSignup />
+        element: <UserSignup />,
       },
       {
         path: "user/login",
-        element: <UserLogin />
+        element: <UserLogin />,
       },
       {
-        path:"user/profile",
-        element: <UserProfile />
+        path: "user/profile",
+        element: <UserProfile />,
       },
       {
-        path : "doc/:id",
-        element : <DocDetail/>
+        path: "doc/:id",
+        element: <DocDetail />,
       },
       {
-        path : 'book-appointment/:id',
-        element : <BookAppointment/>
-      }
-
-    ]
-  }
+        path: "book-appointment/:id",
+        element: <BookAppointment />,
+      },
+    ],
+  },
 ]);
 
 const Body = () => {
   return (
-    <div className="overflow-x-auto scrollbar-none">
+    <div className="min-h-screen flex flex-col overflow-x-auto scrollbar-none">
       <RouterProvider router={appRouter} />
     </div>
   );
 };
+
 
 export default Body;
