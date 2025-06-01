@@ -32,5 +32,6 @@ router.get(
 );
 
 router.get("/get-doc-details/:id", userControllers.getDocDetailsCOntroller);
+router.get("/search-doctors", userControllers.searchDocController);
 
 module.exports = router ;

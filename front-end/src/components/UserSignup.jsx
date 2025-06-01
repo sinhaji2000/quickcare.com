@@ -1,110 +1,89 @@
 import useUserSignUp from "../hooks/useUserSignUp";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+
 const UserSignup = () => {
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) navigate("/user/profile");
-  }, []);
-  
+  }, [navigate]);
+
   const { formData, message, handleChange, handleSubmit } = useUserSignUp();
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6 text-black">
-      <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
-        <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">
-          Sign Up
+    <div className="flex justify-center px-4 py-8 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6 sm:p-8 text-black">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6 text-[#121416]">
+          Create your account
         </h2>
 
         {message && (
-          <p className="mb-4 text-center text-sm text-red-500">{message}</p>
+          <p className="text-red-500 text-center text-sm mb-4">{message}</p>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block mb-1 font-medium" htmlFor="name">
-              Name
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-1 font-medium" htmlFor="email">
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-1 font-medium" htmlFor="password">
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-1 font-medium" htmlFor="phone">
-              Phone
-            </label>
-            <input
-              id="phone"
-              name="phone"
-              type="tel"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-1 font-medium" htmlFor="age">
-              Age
-            </label>
-            <input
-              id="age"
-              name="age"
-              type="number"
-              min="1"
-              value={formData.age}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {[
+            {
+              name: "name",
+              label: "Full Name",
+              placeholder: "Enter your name",
+            },
+            {
+              name: "email",
+              label: "Email address",
+              placeholder: "Enter your email address",
+              type: "email",
+            },
+            {
+              name: "phone",
+              label: "Phone number",
+              placeholder: "Enter your phone number",
+              type: "tel",
+            },
+            {
+              name: "age",
+              label: "Age",
+              placeholder: "Enter your age",
+              type: "number",
+            },
+            {
+              name: "password",
+              label: "Password",
+              placeholder: "Create a password",
+              type: "password",
+            },
+          ].map((field) => (
+            <div key={field.name}>
+              <label className="block text-[#121416] font-medium mb-2">
+                {field.label}
+              </label>
+              <input
+                name={field.name}
+                type={field.type || "text"}
+                placeholder={field.placeholder}
+                value={formData[field.name] || ""}
+                onChange={handleChange}
+                className="w-full h-12 px-4 bg-[#f1f2f4] text-[#121416] rounded-xl placeholder:text-[#6a7681] focus:outline-none"
+                required
+              />
+            </div>
+          ))}
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors"
+            className="w-full h-12 bg-[#0b80ee] text-white font-bold rounded-full text-base"
           >
             Sign Up
           </button>
         </form>
+
+        <p className="text-center text-sm text-[#6a7681] mt-6">
+          By signing up, you agree to our{" "}
+          <span className="underline cursor-pointer">Terms of Service</span> and{" "}
+          <span className="underline cursor-pointer">Privacy Policy</span>.
+        </p>
       </div>
     </div>
   );

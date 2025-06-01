@@ -14,15 +14,15 @@ const UserLogin = () => {
     useUserLogin();
 
   return (
-    <div className="px-40 flex flex-1 justify-center py-5">
-      <div className="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1 bg-white rounded shadow-md p-6 text-black">
-        <h2 className="text-[#121416] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">
+    <div className="flex justify-center px-4 py-8 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6 sm:p-8 text-black">
+        <h2 className="text-[#121416] text-2xl sm:text-3xl font-bold text-center mb-4">
           Log in to QuickCare
         </h2>
 
         {message && (
           <p
-            className={`mb-4 px-4 text-center ${
+            className={`text-center mb-4 ${
               message.toLowerCase().includes("successful")
                 ? "text-green-600"
                 : "text-red-600"
@@ -32,16 +32,14 @@ const UserLogin = () => {
           </p>
         )}
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6 px-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <label className="flex flex-col">
-            <span className="text-[#121416] text-base font-medium leading-normal pb-2">
-              Email
-            </span>
+            <span className="text-[#121416] font-medium mb-2">Email</span>
             <input
               name="email"
               type="email"
               placeholder="Enter your email"
-              className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#121416] focus:outline-0 focus:ring-0 border-none bg-[#f1f2f4] focus:border-none h-14 placeholder:text-[#6a7681] p-4 text-base font-normal leading-normal"
+              className="rounded-xl bg-[#f1f2f4] p-4 h-14 text-base placeholder:text-[#6a7681] focus:outline-none"
               value={formData.email}
               onChange={handleChange}
               required
@@ -49,14 +47,12 @@ const UserLogin = () => {
           </label>
 
           <label className="flex flex-col">
-            <span className="text-[#121416] text-base font-medium leading-normal pb-2">
-              Password
-            </span>
+            <span className="text-[#121416] font-medium mb-2">Password</span>
             <input
               name="password"
               type="password"
               placeholder="Enter your password"
-              className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#121416] focus:outline-0 focus:ring-0 border-none bg-[#f1f2f4] focus:border-none h-14 placeholder:text-[#6a7681] p-4 text-base font-normal leading-normal"
+              className="rounded-xl bg-[#f1f2f4] p-4 h-14 text-base placeholder:text-[#6a7681] focus:outline-none"
               value={formData.password}
               onChange={handleChange}
               required
@@ -64,7 +60,7 @@ const UserLogin = () => {
           </label>
 
           <p
-            className="text-[#6a7681] text-sm font-normal leading-normal pb-3 pt-1 px-4 underline cursor-pointer text-right"
+            className="text-right text-sm text-[#6a7681] underline cursor-pointer"
             onClick={() => navigate("/user/forgot-password")}
           >
             Forgot username or password?
@@ -73,16 +69,16 @@ const UserLogin = () => {
           <button
             type="submit"
             disabled={loading}
-            className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#0b80ee] text-white text-sm font-bold leading-normal tracking-[0.015em]"
+            className="bg-[#0b80ee] text-white font-bold rounded-full h-10 px-4 text-sm"
           >
             {loading ? "Logging in..." : "Log in"}
           </button>
 
           <p
-            className="text-[#6a7681] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center underline cursor-pointer"
+            className="text-center text-sm text-[#6a7681] underline cursor-pointer"
             onClick={() => navigate("/user/signup")}
           >
-            Don't have an account? Sign up
+            Don&apos;t have an account? Sign up
           </p>
         </form>
       </div>

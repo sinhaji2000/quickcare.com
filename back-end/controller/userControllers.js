@@ -8,7 +8,7 @@ const geoip = require("geoip-lite");
 const Doc = require("../model/doc");
 exports.userSignupController = async (req, res) => {
   try {
-    const { name, email, password, phone, age } = req.body;
+    const { name, email, phone, age, password } = req.body;
 
     if (!name || !email || !password || !phone || !age) {
       return res.status(400).json({
@@ -27,9 +27,9 @@ exports.userSignupController = async (req, res) => {
     const user = await User.create({
       name: name,
       email: email,
-      password: password,
       phone: phone,
       age: age,
+      password: password,
     });
 
     // console.log(user);
@@ -121,11 +121,10 @@ exports.userSigninController = async (req, res) => {
 };
 
 exports.profileController = async (req, res) => {
-  // console.log(req.user._id);
   const appoinments = await Appoinment.find({
     userId: req.user._id,
   }).populate("docId", "-password -__v ");
-  console.log(appoinments);
+
   return res.json({ user: req.user, appointments: appoinments });
 };
 
@@ -238,6 +237,61 @@ exports.getDocDetailsCOntroller = async (req, res) => {
     return res.status(200).json({
       message: "Doctor details fetched successfully",
       data: doc,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Internal Error",
+      status: 500,
+    });
+  }
+};
+
+exports.searchDocController = async (req, res) => {
+  try {
+    const { name, specialization, address } = req.query;
+
+    const searchCriteria = [];
+
+    if (name) searchCriteria.push({ name: new RegExp(name, "i") });
+    if (specialization)
+      searchCriteria.push({ speclization: new RegExp(specialization, "i") });
+    if (address) {
+      const addressRegex = new RegExp(address, "i");
+      const addressOrConditions = [
+        { "address.city": addressRegex },
+        { "address.locality": addressRegex },
+      ];
+
+      // If it's a number (like 400001), also try matching pinCode
+      if (!isNaN(address)) {
+        addressOrConditions.push({ "address.pinCode": Number(address) });
+      }
+
+      searchCriteria.push({ $or: addressOrConditions });
+    }
+
+    if (searchCriteria.length === 0) {
+      return res.status(400).json({
+        message: "At least one search field is required",
+        status: 400,
+      });
+    }
+
+    const docs = await Doc.find({ $or: searchCriteria }).select(
+      "-password -__v"
+    );
+
+    if (docs.length === 0) {
+      return res.status(404).json({
+        message: "No doctors found",
+        status: 404,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Doctors found successfully",
+      data: docs,
     });
   } catch (err) {
     console.log(err);

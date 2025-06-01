@@ -14,7 +14,7 @@ import UserProfile from "./UserProfile";
 import DocDetail from "./DocDetail";
 import Footer from "./Footer";
 import BookAppointment from "./BookAppointment";
-import Header from "./Header";
+import FindDoc from "./FindDoc";
 
 // Layout that includes Navbar + nested page via <Outlet />
 const AppLayout = () => {
@@ -62,6 +62,10 @@ const appRouter = createBrowserRouter([
       {
         path: "book-appointment/:id",
         element: <BookAppointment />,
+      },
+      {
+        path: "find-doc",
+        element: <FindDoc />,
       },
     ],
   },

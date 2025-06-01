@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { HeroProvider } from "@heroui/react";
 import {
   Dropdown,
   DropdownItem,
@@ -8,9 +7,11 @@ import {
   DropdownMenu,
   Avatar,
 } from "@heroui/react";
+import { Menu } from "lucide-react";
 
 export default function HeroNavbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,18 +26,14 @@ export default function HeroNavbar() {
   };
 
   return (
-    <header className="relative z-[999] flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f0f2f5] px-10 py-3 bg-white">
-      {/* Left: Logo and Brand */}
-      <div
-        className="flex items-center gap-4 text-[#111518] cursor-pointer"
-        onClick={() => navigate("/")}
-      >
-        <div className="size-4">
-          <svg
-            viewBox="0 0 48 48"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+    <header className="relative z-[999] border-b border-[#f0f2f5] bg-white">
+      <div className="mx-auto flex max-w-screen-xl items-center justify-between px-4 py-3 sm:px-6 lg:px-10">
+        {/* Brand */}
+        <div
+          className="flex items-center gap-3 text-[#111518] cursor-pointer"
+          onClick={() => navigate("/")}
+        >
+          <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none">
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -44,16 +41,13 @@ export default function HeroNavbar() {
               fill="currentColor"
             ></path>
           </svg>
+          <h2 className="text-lg font-bold tracking-[-0.015em]">
+            QuickCare.com
+          </h2>
         </div>
-        <h2 className="text-lg font-bold leading-tight tracking-[-0.015em]">
-          QuickCare.com
-        </h2>
-      </div>
 
-      {/* Right: Navigation Links + Auth */}
-      <div className="flex items-center gap-6">
-        {/* Navigation */}
-        <nav className="hidden sm:flex items-center gap-6 text-[#111518] text-sm font-medium">
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-[#111518] ml-auto pr-6">
           <span className="cursor-pointer" onClick={() => navigate("/")}>
             Home
           </span>
@@ -68,51 +62,93 @@ export default function HeroNavbar() {
           </span>
         </nav>
 
-        {/* Always Show Get Started */}
-        <button
-          onClick={() => navigate("/user/login")}
-          className="flex min-w-[84px] items-center justify-center rounded-full h-10 px-4 bg-[#0b80ee] text-white text-sm font-bold"
-        >
-          Get Started
-        </button>
-
-        {/* Conditionally Show Login OR Avatar */}
-        {!isLoggedIn ? (
+        {/* Auth Buttons */}
+        <div className="hidden md:flex items-center gap-4">
           <button
-            onClick={() => navigate("/user/login")}
-            className="flex min-w-[84px] items-center justify-center rounded-full h-10 px-4 bg-[#f0f2f5] text-[#111518] text-sm font-bold"
+            onClick={() => navigate("/find-doc")}
+            className="rounded-full bg-[#0b80ee] px-4 py-2 text-white text-sm font-bold"
           >
-            Login
+            Get Started
           </button>
-        ) : (
-          <Dropdown placement="bottom-end">
-            <DropdownTrigger>
-              <Avatar
-                isBordered
-                as="button"
-                className="transition-transform h-10 w-10 rounded-full"
-                color="secondary"
-                name="User"
-                size="sm"
-                src="https://i.pravatar.cc/150?u=user"
-              />
-            </DropdownTrigger>
 
-            <DropdownMenu
-              aria-label="User Actions"
-              variant="flat"
-              className=" text-black"
+          {!isLoggedIn ? (
+            <button
+              onClick={() => navigate("/user/login")}
+              className="rounded-full bg-[#f0f2f5] px-4 py-2 text-sm font-bold text-[#111518]"
             >
-              <DropdownItem onClick={() => navigate("/user/profile")}>
-                Profile
-              </DropdownItem>
-              <DropdownItem color="danger" onClick={handleLogout}>
-                Sign Out
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        )}
+              Login
+            </button>
+          ) : (
+            <Dropdown placement="bottom-end">
+              <DropdownTrigger>
+                <Avatar
+                  isBordered
+                  as="button"
+                  className="transition-transform h-10 w-10"
+                  color="secondary"
+                  name="User"
+                  size="sm"
+                  src="https://i.pravatar.cc/150?u=user"
+                />
+              </DropdownTrigger>
+              <DropdownMenu variant="flat" className="text-black">
+                <DropdownItem onClick={() => navigate("/user/profile")}>
+                  Profile
+                </DropdownItem>
+                <DropdownItem color="danger" onClick={handleLogout}>
+                  Sign Out
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          )}
+        </div>
+
+        {/* Mobile Menu Toggle */}
+        <div className="md:hidden ">
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            <Menu className="w-6 h-6 text-[#111518]" />
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden flex flex-col gap-3 px-4 pb-4 text-black">
+          <span className="cursor-pointer " onClick={() => navigate("/")}>
+            Home
+          </span>
+          <span
+            className="cursor-pointer"
+            onClick={() => navigate("/services")}
+          >
+            Services
+          </span>
+          <span className="cursor-pointer" onClick={() => navigate("/contact")}>
+            Contact
+          </span>
+          <button
+            onClick={() => navigate("/find-doc")}
+            className="rounded bg-[#0b80ee] px-4 py-2 text-white text-sm font-bold"
+          >
+            Get Started
+          </button>
+          {!isLoggedIn ? (
+            <button
+              onClick={() => navigate("/user/login")}
+              className="rounded bg-[#f0f2f5] px-4 py-2 text-sm font-bold text-[#111518]"
+            >
+              Login
+            </button>
+          ) : (
+            <button
+              onClick={handleLogout}
+              className="rounded bg-red-500 px-4 py-2 text-white text-sm font-bold"
+            >
+              Sign Out
+            </button>
+          )}
+        </div>
+      )}
     </header>
   );
 }
