@@ -1,5 +1,6 @@
 import React from 'react';
 import useUserProfile from '../hooks/useUserProfile';
+import { Link } from "react-router-dom";
 
 const UserProfile = () => {
   const { user, appointments, error, loading, handleSignOut } =
@@ -138,12 +139,14 @@ const UserProfile = () => {
 
         {/* Logout Button */}
         <div className="px-4 mt-6">
-          <button
-            onClick={handleSignOut}
-            className="w-full bg-red-500 text-white py-3 rounded-xl hover:bg-red-600 transition"
-          >
-            Logout
-          </button>
+          <Link to="/chat/682c473c7c00b62fd3c1fd8d">
+            <button
+              onClick={handleSignOut}
+              className="w-full bg-red-500 text-white py-3 rounded-xl hover:bg-red-600 transition"
+            >
+              Logout
+            </button>
+          </Link>
         </div>
       </div>
     </div>

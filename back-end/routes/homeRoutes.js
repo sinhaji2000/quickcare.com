@@ -7,11 +7,19 @@ const Doc = require("../model/doc");
 
 router.get("/", async (req, res) => {
   try {
-    const doc = await Doc.find().select("-password  -__v");
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const doctors = await Doc.find().skip(skip).limit(limit);
+    const totalDoctors = await Doc.countDocuments();
+
     return res.status(200).json({
-      message: "Welcome to the home page",
+      message: "Doctors fetched successfully",
       status: 200,
-      doc,
+      data: doctors,
+      totalPages: Math.ceil(totalDoctors / limit),
+      currentPage: page,
     });
   } catch (err) {
     console.log(err);

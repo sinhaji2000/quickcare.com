@@ -15,6 +15,7 @@ import DocDetail from "./DocDetail";
 import Footer from "./Footer";
 import BookAppointment from "./BookAppointment";
 import FindDoc from "./FindDoc";
+import Chat from "./Chat";
 
 // Layout that includes Navbar + nested page via <Outlet />
 const AppLayout = () => {
@@ -66,6 +67,10 @@ const appRouter = createBrowserRouter([
       {
         path: "find-doc",
         element: <FindDoc />,
+      },
+      {
+        path: "chat/:docId",
+        element: <Chat />,
       },
     ],
   },

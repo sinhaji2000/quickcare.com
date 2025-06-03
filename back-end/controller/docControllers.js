@@ -107,7 +107,7 @@ exports.docSigninController = async (req, res) => {
       { _id: doc._id }, // <-- user._id here, not user._id on an array
       process.env.JWT_SECRET || "secret",
       {
-        expiresIn: "1h",
+        expiresIn: "10y",
       }
     );
     console.log(token, "token");

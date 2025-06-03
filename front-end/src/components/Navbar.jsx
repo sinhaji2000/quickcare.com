@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Dropdown,
   DropdownItem,
@@ -21,6 +22,8 @@ export default function HeroNavbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    dispatch(setLogedinUser(null));
     setIsLoggedIn(false);
     navigate("/user/login");
   };
@@ -48,18 +51,18 @@ export default function HeroNavbar() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-[#111518] ml-auto pr-6">
-          <span className="cursor-pointer" onClick={() => navigate("/")}>
-            Home
-          </span>
+          <Link to="/">
+            <span className="cursor-pointer">Home</span>
+          </Link>
           <span
             className="cursor-pointer"
             onClick={() => navigate("/services")}
           >
             Services
           </span>
-          <span className="cursor-pointer" onClick={() => navigate("/contact")}>
-            Contact
-          </span>
+          <Link to="/contact">
+            <span className="cursor-pointer">Contact</span>
+          </Link>
         </nav>
 
         {/* Auth Buttons */}

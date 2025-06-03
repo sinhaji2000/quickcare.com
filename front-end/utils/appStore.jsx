@@ -1,9 +1,11 @@
+// appStore.jsx
 import { configureStore } from "@reduxjs/toolkit";
-import todatAppointmentReducer from './todayAppointmentSlice';
-
+import logedinUser from "./logedinUser"; // this is your slice reducer
 
 const appStore = configureStore({
-    todayAppointments : todatAppointmentReducer,
-})
+  reducer: {
+    logedinUser: logedinUser, // <--- fix: must be under reducer
+  },
+});
 
-export default appStore ;
+export default appStore;

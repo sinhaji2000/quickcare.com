@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLogedinUser } from "../../utils/logedinUser"; // ✅ Fixed import path
 
 const useUserProfile = () => {
   const [user, setUser] = useState(null);
@@ -8,6 +10,7 @@ const useUserProfile = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -25,6 +28,7 @@ const useUserProfile = () => {
         });
 
         setUser(response.data.user);
+        dispatch(setLogedinUser(response.data.user));
         setAppointments(response.data.appointments || []); // ✅ Fixed spelling
       } catch (err) {
         console.error(err);

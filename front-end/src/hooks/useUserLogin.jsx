@@ -1,9 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setLogedinUser } from "../../utils/logedinUser";
 const useUserLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -22,9 +25,13 @@ const useUserLogin = () => {
         "http://localhost:3001/user/signin",
         formData
       );
+
       const { token } = response.data;
+      const { user } = response.data;
 
       localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      dispatch(setLogedinUser(user));
 
       setMessage("Login successful! Redirecting...");
       navigate("/");
@@ -39,13 +46,13 @@ const useUserLogin = () => {
     }
   };
 
-    return {
-        formData,
-        message,
-        loading,
-        handleChange,
-        handleSubmit,
-    };
+  return {
+    formData,
+    message,
+    loading,
+    handleChange,
+    handleSubmit,
+  };
 };
 
 export default useUserLogin;

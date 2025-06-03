@@ -1,8 +1,11 @@
 import DocCard from "./DocCard";
 import { useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
+import { Pagination } from "@heroui/react";
+import { useState } from "react";
 const Home = () => {
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
 
   return (
     <div className="px-4 sm:px-8 lg:px-20 flex justify-center py-5 bg-white">
@@ -23,14 +26,12 @@ const Home = () => {
             Find the best doctors, check availability, and book appointments
             instantly.
           </p>
-          <button
-            className="mt-4 bg-[#0b80ee] text-white text-sm sm:text-base font-bold rounded-full h-12 px-6"
-            onClick={() => navigate("/find-doc")}
-          >
-            Book an Appointment
-          </button>
+          <Link to="/find-doc">
+            <button className="mt-4 bg-[#0b80ee] text-white text-sm sm:text-base font-bold rounded-full h-12 px-6">
+              Book an Appointment
+            </button>
+          </Link>
         </div>
-
         {/* Why Choose Section */}
         <div className="py-10 px-4 sm:px-0">
           <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-[#111518]">
@@ -71,7 +72,19 @@ const Home = () => {
             ))}
           </div>
         </div>
+        <DocCard page={currentPage} />
 
+        <div className="flex justify-center pb-16">
+          <Pagination
+            showControls
+            color="success"
+            initialPage={1}
+            page={currentPage}
+            total={5} // you can fetch and use total from API if dynamic
+            onChange={(newPage) => setCurrentPage(newPage)}
+            className="text-black"
+          />
+        </div>
         {/* Call-to-Action Section */}
         <div className="text-center py-10">
           <h2 className="text-2xl sm:text-3xl font-bold text-[#111518] mb-2">

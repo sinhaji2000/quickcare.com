@@ -76,7 +76,10 @@ exports.userSigninController = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ email: email, password: password });
+    const user = await User.findOne({
+      email: email,
+      password: password,
+    }).select("-__v -password");
     if (!user) {
       return res.status(400).json({
         message: "Invalid credentials",
@@ -88,7 +91,7 @@ exports.userSigninController = async (req, res) => {
       { _id: user._id }, // <-- user._id here, not user._id on an array
       process.env.JWT_SECRET || "secret",
       {
-        expiresIn: "1h",
+        expiresIn: "10y",
       }
     );
     console.log(token, "token");
@@ -110,7 +113,7 @@ exports.userSigninController = async (req, res) => {
     `;
     await sendEmail(user.email, "Login Notification", message);
 
-    return res.json({ token });
+    return res.json({ token, user: user });
   } catch (err) {
     console.log(err);
     res.status(500).json({
@@ -249,7 +252,7 @@ exports.getDocDetailsCOntroller = async (req, res) => {
 
 exports.searchDocController = async (req, res) => {
   try {
-    const { name, specialization, address } = req.query;
+    const { name, specialization, address, page = 1, limit = 3 } = req.query;
 
     const searchCriteria = [];
 
@@ -263,7 +266,6 @@ exports.searchDocController = async (req, res) => {
         { "address.locality": addressRegex },
       ];
 
-      // If it's a number (like 400001), also try matching pinCode
       if (!isNaN(address)) {
         addressOrConditions.push({ "address.pinCode": Number(address) });
       }
@@ -278,9 +280,13 @@ exports.searchDocController = async (req, res) => {
       });
     }
 
-    const docs = await Doc.find({ $or: searchCriteria }).select(
-      "-password -__v"
-    );
+    const query = { $or: searchCriteria };
+
+    const total = await Doc.countDocuments(query); // total matches
+    const docs = await Doc.find(query)
+      .select("-password -__v")
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
 
     if (docs.length === 0) {
       return res.status(404).json({
@@ -292,6 +298,9 @@ exports.searchDocController = async (req, res) => {
     return res.status(200).json({
       message: "Doctors found successfully",
       data: docs,
+      total,
+      currentPage: Number(page),
+      totalPages: Math.ceil(total / limit),
     });
   } catch (err) {
     console.log(err);
@@ -301,3 +310,4 @@ exports.searchDocController = async (req, res) => {
     });
   }
 };
+

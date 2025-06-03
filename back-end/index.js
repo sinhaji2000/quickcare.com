@@ -6,6 +6,9 @@ const passport = require("passport");
 require("dotenv").config();
 const app = express();
 const cors = require("cors");
+const http = require("http");
+
+const server = http.createServer(app);
 
 app.use(
   cors({
@@ -14,9 +17,7 @@ app.use(
   })
 );
 
-// app.get("/", (req, res) => {
-//   res.send("CORS is working!");
-// });
+require("./config/socket")(server);
 
 const cron = require("node-cron");
 const remindUpcomingAppointments = require("./cron/remainderJob");
@@ -32,7 +33,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/", homeRotes);
 
-
-app.listen(port , () =>{
-    console.log(`Server is running on port ${port}`) ;
-})
+server.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
