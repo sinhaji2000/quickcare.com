@@ -23,7 +23,11 @@ const UserSignup = () => {
           <p className="text-red-500 text-center text-sm mb-4">{message}</p>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+          className="space-y-5"
+        >
           {[
             {
               name: "name",
@@ -35,6 +39,12 @@ const UserSignup = () => {
               label: "Email address",
               placeholder: "Enter your email address",
               type: "email",
+            },
+            {
+              name: "gender",
+              label: "Gender",
+              placeholder: "Enter your gender",
+              type: "text",
             },
             {
               name: "phone",
@@ -49,6 +59,13 @@ const UserSignup = () => {
               type: "number",
             },
             {
+              name: "profilePic",
+              label: "Profile Picture",
+              placeholder: "Upload your profile picture",
+              type: "file",
+              accept: "image/*",
+            },
+            {
               name: "password",
               label: "Password",
               placeholder: "Create a password",
@@ -59,15 +76,26 @@ const UserSignup = () => {
               <label className="block text-[#121416] font-medium mb-2">
                 {field.label}
               </label>
-              <input
-                name={field.name}
-                type={field.type || "text"}
-                placeholder={field.placeholder}
-                value={formData[field.name] || ""}
-                onChange={handleChange}
-                className="w-full h-12 px-4 bg-[#f1f2f4] text-[#121416] rounded-xl placeholder:text-[#6a7681] focus:outline-none"
-                required
-              />
+              {field.type === "file" ? (
+                <input
+                  name={field.name}
+                  type="file"
+                  accept={field.accept}
+                  onChange={handleChange}
+                  className="w-full h-12 px-4 bg-[#f1f2f4] text-[#121416] rounded-xl placeholder:text-[#6a7681] focus:outline-none"
+                  required
+                />
+              ) : (
+                <input
+                  name={field.name}
+                  type={field.type || "text"}
+                  placeholder={field.placeholder}
+                  value={formData[field.name] || ""}
+                  onChange={handleChange}
+                  className="w-full h-12 px-4 bg-[#f1f2f4] text-[#121416] rounded-xl placeholder:text-[#6a7681] focus:outline-none"
+                  required
+                />
+              )}
             </div>
           ))}
 

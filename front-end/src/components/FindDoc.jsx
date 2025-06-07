@@ -14,7 +14,7 @@ const FindDoc = () => {
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const limit = 2; // show 3 doctors per page
+  const limit = 2; // show 2 doctors per page
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

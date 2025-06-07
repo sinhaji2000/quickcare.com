@@ -2,10 +2,12 @@ import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setLogedinUser } from "../../utils/logedinUser";
+import { useNavigate } from "react-router-dom";
 const useUserLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleChange = (e) => {

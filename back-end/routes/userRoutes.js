@@ -3,8 +3,13 @@ const router = express.Router();
 const userControllers = require('../controller/userControllers') ;
 const appointmentControllers = require("../controller/appointmentControllers");
 const passport = require("passport");
+const upload = require("../config/multer");
 
-router.post("/signup", userControllers.userSignupController);
+router.post(
+  "/signup",
+  upload.single("profilePic"),
+  userControllers.userSignupController
+);
 router.post("/signin", userControllers.userSigninController);
 router.get(
   "/profile",

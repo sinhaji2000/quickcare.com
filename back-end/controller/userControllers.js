@@ -6,10 +6,15 @@ const sendEmail = require("../config/node_mailer");
 const useragent = require("useragent");
 const geoip = require("geoip-lite");
 const Doc = require("../model/doc");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
+const path = require("path");
+
 exports.userSignupController = async (req, res) => {
   try {
-    const { name, email, phone, age, password } = req.body;
-
+    const { name, email, gender, phone, age, password } = req.body;
+    const profilePic = req.file ? req.file.path : null; // Safe acce
+    console.log(req.file);
     if (!name || !email || !password || !phone || !age) {
       return res.status(400).json({
         message: "All fields are required",
@@ -27,8 +32,10 @@ exports.userSignupController = async (req, res) => {
     const user = await User.create({
       name: name,
       email: email,
+      gender: gender,
       phone: phone,
       age: age,
+      profilePic: profilePic,
       password: password,
     });
 

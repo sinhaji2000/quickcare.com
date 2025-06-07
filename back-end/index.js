@@ -7,9 +7,11 @@ require("dotenv").config();
 const app = express();
 const cors = require("cors");
 const http = require("http");
+const path = require("path");
 
 const server = http.createServer(app);
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(
   cors({
     origin: "http://localhost:5173", // Frontend address
