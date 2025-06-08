@@ -133,9 +133,10 @@ exports.userSigninController = async (req, res) => {
 exports.profileController = async (req, res) => {
   const appoinments = await Appoinment.find({
     userId: req.user._id,
-  }).populate("docId", "-password -__v ");
+  }).populate("docId", "-password  -__v ");
+  const { password, __v, ...userWithoutPassword } = req.user.toObject(); // Exclude password
 
-  return res.json({ user: req.user, appointments: appoinments });
+  return res.json({ user: userWithoutPassword, appointments: appoinments });
 };
 
 exports.updateProfileController = async (req, res) => {

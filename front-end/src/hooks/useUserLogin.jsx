@@ -30,6 +30,7 @@ const useUserLogin = () => {
 
       const { token } = response.data;
       const { user } = response.data;
+      console.log("User data:", user);
 
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));

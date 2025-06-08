@@ -28,6 +28,7 @@ const useUserProfile = () => {
         });
 
         setUser(response.data.user);
+        // console.log("user form profile", response.data.user);
         dispatch(setLogedinUser(response.data.user));
         setAppointments(response.data.appointments || []); // ✅ Fixed spelling
       } catch (err) {

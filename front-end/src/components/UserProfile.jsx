@@ -3,14 +3,13 @@ import { useSelector } from "react-redux";
 import useUserProfile from "../hooks/useUserProfile";
 
 const UserProfile = () => {
-  const userFromRedux = useSelector((state) => state.logedinUser);
-
   const { user, appointments, error, loading, handleSignOut } =
     useUserProfile();
 
+  console.log("User Profile Data:", user);
   const profileImageURL = user?.profilePic
-    ? `4/${user.profilePic}`
-    : "https://img.freepik.com/free-vector/smiling-young-man-illustration_1308-174669.jpg?semt=ais_hybrid&w=740";
+    ? `http://localhost:3001/${user.profilePic}`
+    : null;
 
   if (loading) {
     return (
