@@ -1,11 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const useBookAppo = () => {
+const useBookAppo = ({ docId }) => {
   const [loading, setLoading] = useState(false);
+  console.log("Doc ID in hook:", docId);
   const [message, setMessage] = useState("");
+  const [doctor, setDoctor] = useState({});
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchDoctorDetails = async () => {
+      const doctor = await axios.get(
+        `http://localhost:3001/user/get-doc-details/${docId}`
+      );
+      setDoctor(doctor.data.data);
+    };
+
+    fetchDoctorDetails();
+  }, [docId]);
 
   const handleBooking = async (e, docId, date) => {
     e.preventDefault();
@@ -34,7 +47,7 @@ const useBookAppo = () => {
     }
   };
 
-  return { handleBooking, loading, message };
+  return { handleBooking, loading, message, doctor };
 };
 
 export default useBookAppo;

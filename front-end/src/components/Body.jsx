@@ -16,6 +16,7 @@ import Footer from "./Footer";
 import BookAppointment from "./BookAppointment";
 import FindDoc from "./FindDoc";
 import Chat from "./Chat";
+import UserProfile1 from "./Userprofile1";
 
 // Layout that includes Navbar + nested page via <Outlet />
 const AppLayout = () => {
@@ -54,7 +55,7 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "user/profile",
-        element: <UserProfile />,
+        element: <UserProfile1 />,
       },
       {
         path: "doc/:id",

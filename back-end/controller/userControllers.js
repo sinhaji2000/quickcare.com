@@ -73,8 +73,8 @@ exports.userSigninController = async (req, res) => {
       ? `${geo.city}, ${geo.region}, ${geo.country}`
       : "Location unavailable";
 
-    console.log("IP Address:", ip);
-    console.log("Location Info:", locationInfo);
+    // console.log("IP Address:", ip);
+    // console.log("Location Info:", locationInfo);
 
     if (!email || !password) {
       return res.status(400).json({
