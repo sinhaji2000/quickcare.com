@@ -6,6 +6,7 @@ import {
   Outlet
 } from "react-router-dom";
 
+
 import Home from "./Home";
 import UserSignup from "./UserSignup";
 import HeroNavbar from "./Navbar";
@@ -16,7 +17,7 @@ import Footer from "./Footer";
 import BookAppointment from "./BookAppointment";
 import FindDoc from "./FindDoc";
 import Chat from "./Chat";
-import UserProfile1 from "./Userprofile1";
+import UserProfile1 from "./Userprofile1"; // Navbar
 
 // Layout that includes Navbar + nested page via <Outlet />
 const AppLayout = () => {
@@ -31,48 +32,19 @@ const AppLayout = () => {
   );
 };
 
-// Proper router configuration with layout
 const appRouter = createBrowserRouter([
   {
     path: "/",
-    element: <AppLayout />, // Wrap all routes with Navbar
+    element: <AppLayout />,
     children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
-      // {
-      //   path: "/abc",
-      //   element: <Header />,
-      // },
-      {
-        path: "user/signup",
-        element: <UserSignup />,
-      },
-      {
-        path: "user/login",
-        element: <UserLogin />,
-      },
-      {
-        path: "user/profile",
-        element: <UserProfile1 />,
-      },
-      {
-        path: "doc/:id",
-        element: <DocDetail />,
-      },
-      {
-        path: "book-appointment/:id",
-        element: <BookAppointment />,
-      },
-      {
-        path: "find-doc",
-        element: <FindDoc />,
-      },
-      {
-        path: "chat/:docId",
-        element: <Chat />,
-      },
+      { path: "/", element: <Home /> },
+      { path: "user/signup", element: <UserSignup /> },
+      { path: "user/login", element: <UserLogin /> },
+      { path: "user/profile", element: <UserProfile1 /> },
+      { path: "doc/:id", element: <DocDetail /> },
+      { path: "book-appointment/:id", element: <BookAppointment /> },
+      { path: "find-doc", element: <FindDoc /> },
+      { path: "chat/:docId", element: <Chat /> },
     ],
   },
 ]);

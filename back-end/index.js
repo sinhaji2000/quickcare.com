@@ -14,10 +14,12 @@ const server = http.createServer(app);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(
   cors({
-    origin: "http://localhost:5173", // Frontend address
+    // Allow multiple origins
+    origin: ["http://localhost:5173", "http://localhost:5174"],
     credentials: true, // if you're using cookies or HTTP auth
   })
 );
+
 
 require("./config/socket")(server);
 
